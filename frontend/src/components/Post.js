@@ -51,7 +51,7 @@ class Post extends Component{
 
   render(){
 
-    let {id,title,body,author,category,timestamp,voteScore,commentCount} = this.props.post;
+    let {id,title,body,author,category,timestamp,voteScore} = this.props.post;
     let {comments} = this.props;
     let updateVote = this.props.updateVote;
     let postEdit = this.postEdit;
@@ -65,7 +65,7 @@ class Post extends Component{
       <div>
         <div className="post-container">
           <div className="post-header">{title}</div>
-          <div classNmae="post-meta">Posted by {author} on {GetDateTimeString(timestamp)}</div>
+          <div classNmae="post-meta">Posted by <b>{author}</b> on {GetDateTimeString(timestamp)}</div>
           <div className="post-body">
             {body}
           </div>
