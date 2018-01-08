@@ -65,14 +65,14 @@ class Post extends Component{
       <div>
         <div className="post-container">
           <div className="post-header">{title}</div>
+          <div classNmae="post-meta">Posted by {author} on {GetDateTimeString(timestamp)}</div>
           <div className="post-body">
             {body}
           </div>
+          <div>Category:{category}</div>
           <div className="post-details">
-            <div>{author}</div>
-            <div>{category}</div>
-            <div>{GetDateTimeString(timestamp)}</div>
-            <div>
+            
+            <div>Vote Score:
               <button className="vote-button" onClick={(e) => updateVote(POST,DOWNVOTE,id)}>
                 <Minus/>
               </button>
@@ -81,9 +81,8 @@ class Post extends Component{
                 <Plus/>
               </button>
             </div>
-            <div>{commentCount}</div>
-            <button className="edit-button" onClick={(e) => this.openModal(POST)}><FaEdit/>Edit Post</button>
           </div>
+          <div><button className="edit-button" onClick={(e) => this.openModal(POST)}><FaEdit/>Edit Post</button></div>
         </div>
         <div className="comments-container">
           {comments.length > 0 && comments.map((comment) =>
