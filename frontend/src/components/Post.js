@@ -7,8 +7,8 @@ import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import randomString from 'randomstring';
 import serializeForm from 'form-serialize';
-import {POST,COMMENT,DOWNVOTE,UPVOTE,ADDCOMMENT,GetDateTimeString} from '../utils/constants';
-import { bindCategories, getPostById,bindComments,voteUpdate,updatePostComment,addComment,deleteComment} from '../actions';
+import {POST,COMMENT,DOWNVOTE,UPVOTE,ADDCOMMENT,GetDateTimeString,POSTDELETE} from '../utils/constants';
+import { bindCategories, getPostById,bindComments,voteUpdate,updatePostComment,addComment,deleteComment,deletePost} from '../actions';
 import Comment from './Comment';
 
 import '../styles/post.css'
@@ -47,7 +47,14 @@ class Post extends Component{
     this.setState({comment: editComment});
     this.setState({editType:editType,showModal : true});
   }
+
   closeModal = () => {this.setState({showModal : false})}
+
+  removePost =(id) =>{
+    this.props.deletePost(id);
+    this.props.history.push('./');
+    
+  }
 
   render(){
 
@@ -65,7 +72,7 @@ class Post extends Component{
       <div>
         <div className="post-container">
           <div className="post-header">{title}</div>
-          <div classNmae="post-meta">Posted by <b>{author}</b> on {GetDateTimeString(timestamp)}</div>
+          <div className="post-meta">Posted by <b>{author}</b> on {GetDateTimeString(timestamp)}</div>
           <div className="post-body">
             {body}
           </div>
@@ -83,10 +90,11 @@ class Post extends Component{
             </div>
           </div>
           <div><button className="edit-button" onClick={(e) => this.openModal(POST)}><FaEdit/>Edit Post</button></div>
+          <div><button className="edit-button" onClick={(e) => this.openModal(POSTDELETE)}><FaEdit/>Delete Post</button></div>
         </div>
         <div className="comments-container">
           {comments.length > 0 && comments.map((comment) =>
-            <Comment openModal={this.openModal} deleteComment={deleteComment} updateVote={updateVote} data={comment}/>
+            <Comment key={comment.id} openModal={this.openModal} deleteComment={deleteComment} updateVote={updateVote} data={comment}/>
           )}
           <div><button className="add-button" onClick={(e)=> this.openModal(ADDCOMMENT,{})}>Add Comment</button></div>
         </div>
@@ -100,9 +108,9 @@ class Post extends Component{
         >
           <div className="modal-container">
            
-            <h2 className="modal-header"> {editType===POST ? 'Edit Post' : editType === COMMENT ?'Edit Comment' : "Add Comment"} <a className="modal-close" onClick={(e) => {this.closeModal(); return false;}}><FaClose/></a></h2>
+            <h2 className="modal-header"> {editType === POSTDELETE ? 'Delete Post' : editType===POST ? 'Edit Post' : editType === COMMENT ?'Edit Comment' : "Add Comment"} <a className="modal-close" onClick={(e) => { this.closeModal(); return false;}}><FaClose/></a></h2>
          
-              <form onSubmit={(e) => {postEdit(e,editType===POST? this.props.post : comment,editType); this.closeModal();}} className="update-content-form">
+              <form onSubmit={(e) => {editType===POSTDELETE ? this.removePost(id) :postEdit(e,editType===POST? this.props.post : comment,editType); this.closeModal();}} className="update-content-form">
                 
                 { editType=== POST && (
                   <div className="update-details">
@@ -124,9 +132,12 @@ class Post extends Component{
                       <input type="hidden" name="parentId" value={id}/>
                     </div>
                   )}
-
-                  
-                <div className="modal-row"><button className="modal-button" >Update</button></div>
+                  {editType === POSTDELETE && (
+                    <div className="delete-post">
+                       <h2>Are you sure you would like to delete this post?</h2>
+                    </div>
+                  )}
+                <div className="modal-row"><button className="modal-button" >{editType === POSTDELETE ? "Delete" : "Update"}</button></div>
                               
             </form>
           
@@ -158,6 +169,7 @@ function mapStateToProps ({ categories, posts,post,comments}) {
       editPostComment: (editType,newContent) => dispatch(updatePostComment(editType,newContent)),
       addComment : (newComment) => dispatch(addComment(newComment)),
       deleteComment : (comment) => dispatch(deleteComment(comment)),
+      deletePost : (post) => dispatch(deletePost(post))
     }
   }
   

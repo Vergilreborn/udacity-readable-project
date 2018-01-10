@@ -30,11 +30,7 @@ class PostList extends Component{
   sortRender(type){
     
     let {sortType,asc} = this.state;
-    if(sortType === type){
-      return asc ? <FaSortAsc/> : <FaSortDesc/>;
-    }else{
-      return <FaSort/>;
-    }
+    return sortType === type ? (asc ? <FaSortAsc/> : <FaSortDesc/>) : <FaSort/>;
   }
 
   render(){

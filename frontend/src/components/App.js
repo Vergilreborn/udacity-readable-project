@@ -83,7 +83,7 @@ class App extends Component {
           <Route path="/" render={({history}) => (
             <div className="content-body">
             <CategoryList categories={categories} changeCategory={this.changeCategory}/>
-            <PostList posts={posts} setupPost={this.setupPost} deletePost={this.props.deletePost}/>
+            <PostList posts={posts} setupPost={this.setupPost} history={history} deletePost={this.props.deletePost}/>
             </div>
           )}/>
         </Switch>

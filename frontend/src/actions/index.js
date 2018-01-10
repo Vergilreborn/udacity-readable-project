@@ -1,68 +1,54 @@
 import * as API from '../utils/api';
 import {POST} from '../utils/constants';
-
-export const SET_CATEGORIES = 'GET_CATEGORIES';
-export const SET_POSTS = 'GET_POSTS';
-export const GET_POST = 'GET_POST';
-export const GET_COMMENTS = 'GET_COMMENTS'
-
-export const ADD_POST = 'ADD_POST';
-export const ADD_CATEGORY = 'ADD_CATEGORY';
-export const ADD_COMMENT = 'ADD_COMMENT';
-
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
-export const UPDATE_POST ='UPDATE_POST';
-
-export const DELETE_POST = 'DELETE_POST';
-export const DELETE_COMMENT = 'DELETE_COMMENT';
+import * as TYPES from './types';
 
 const setCategories = categories => ({
-  type: SET_CATEGORIES,
+  type: TYPES.SET_CATEGORIES,
   categories
 });
 
 const setPosts = posts =>({
-  type: SET_POSTS,
+  type: TYPES.SET_POSTS,
   posts
 });
 
 const getPost = post => ({
-  type: GET_POST,
+  type: TYPES.GET_POST,
   post
 });
 
 const createPost = (post) =>({
-    type:ADD_POST,
+    type: TYPES.ADD_POST,
     post
 });
 
 const getComments = (comments) =>({
-    type: GET_COMMENTS,
+    type: TYPES.GET_COMMENTS,
     comments
 });
 
 const updateComment = (comment) => ({
-  type: UPDATE_COMMENT,
+  type: TYPES.UPDATE_COMMENT,
   comment
 })
 
 const updatePost = (post) => ({
-  type: UPDATE_POST,
+  type: TYPES.UPDATE_POST,
   post
 })
 
 const setComment = (comment) => ({
-  type: ADD_COMMENT,
+  type: TYPES.ADD_COMMENT,
   comment
 });
 
 const removeComment = (comment) => ({
-  type: DELETE_COMMENT,
+  type: TYPES.DELETE_COMMENT,
   comment
 });
 
 const removePost = (post) => ({
-  type: DELETE_POST,
+  type: TYPES.DELETE_POST,
   post
 })
 
@@ -100,7 +86,7 @@ export const bindComments = (parentId) => dispatch =>(
 
 export function addCategory({name,path}){
   return {
-    type: ADD_CATEGORY,
+    type: TYPES.ADD_CATEGORY,
     name,
     path
   };
